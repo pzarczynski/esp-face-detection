@@ -3,8 +3,14 @@
 
 #include <esp_http_server.h>
 
-#define WIFI_SSID      "ssid"
-#define WIFI_PASS      "pass"
+#ifndef WIFI_SSID
+#error "define WIFI_SSID"
+#endif
+
+#ifndef WIFI_PASS
+#error "define WIFI_PASS"
+#endif
+
 #define WIFI_CHANNEL   1
 #define STA_CONN       4
 

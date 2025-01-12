@@ -63,7 +63,7 @@ void init_wifi(void)
 	ESP_ERROR_CHECK(esp_wifi_start());
 
 	ESP_LOGI(TAG, "wifi_init finished. SSID:%s password:%s channel:%d",
-			WIFI_SSID, WIFI_PASS, WIFI_CHANNEL);
+					 WIFI_SSID, WIFI_PASS, WIFI_CHANNEL);
 }
 
 
