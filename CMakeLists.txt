@@ -1,0 +1,9 @@
+cmake_minimum_required(VERSION 3.16.0)
+
+include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+
+set(ENABLE_CCACHE "1")
+
+project(esp_camera_server)
+
+littlefs_create_partition_image(littlefs data FLASH_IN_PROJECT)

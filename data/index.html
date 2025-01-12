@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+
+body { text-align:center; }
+.vert { margin-bottom: 10%; }
+.hori{ margin-bottom: 0%; }
+
+  </style>
+</head>
+<body>
+  <div><img src="/stream" id="stream" width="60%"></div>
+  <div id="container">
+    <p>
+      <button onclick="capturePhoto();">CAPTURE</button>
+    </p>
+  </div>
+</body>
+<script>
+
+function capturePhoto() {
+  var canvas = document.createElement("canvas");
+  var stream = document.getElementById("stream");
+  canvas.width = stream.naturalWidth;
+  canvas.height = stream.naturalHeight;
+  canvas.getContext("2d").drawImage(stream, 0, 0, stream.naturalWidth, stream.naturalHeight);
+  var link = document.createElement('a');
+  link.download = 'capture.png';
+  link.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+  link.click();
+}
+
+</script>
+</html>
