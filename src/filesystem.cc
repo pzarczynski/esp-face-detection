@@ -20,12 +20,10 @@ void init_littlefs()
 		if (ret == ESP_FAIL)
 		{
 			ESP_LOGE(TAG, "Failed to mount or format littlefs partition");
-		}
-		else if (ret == ESP_ERR_NOT_FOUND)
+		} else if (ret == ESP_ERR_NOT_FOUND)
 		{
 			ESP_LOGE(TAG, "Failed to find littlefs partition");
-		}
-		else
+		} else
 		{
 			ESP_LOGE(TAG, "littlefs initialization error (%s)", esp_err_to_name(ret));
 		}

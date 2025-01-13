@@ -5,42 +5,56 @@
 #include <esp_http_server.h>
 #include <esp_camera.h>
 
+#include "tensorflow/lite/micro/system_setup.h"
+#include "tensorflow/lite/schema/schema_generated.h"
+#include "tensorflow/lite/core/c/common.h"
+#include "tensorflow/lite/micro/micro_interpreter.h"
+#include "tensorflow/lite/micro/micro_log.h"
+#include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
+
 #include "camera_pins.h"
 #include "filesystem.h"
 #include "wifi_server.h"
+#include "model.h"
+#include "main_functions.h"
 
 static const char *TAG = __FILE__;
 
-static camera_config_t camera_config = {
+static camera_config_t camera_config =
+{
 	.pin_pwdn = PWDN_GPIO_NUM,
 	.pin_reset = RESET_GPIO_NUM,
 	.pin_xclk = XCLK_GPIO_NUM,
 	.pin_sccb_sda = SIOD_GPIO_NUM,
 	.pin_sccb_scl = SIOC_GPIO_NUM,
 
-	.pin_d0 = Y2_GPIO_NUM,
-	.pin_d1 = Y3_GPIO_NUM,
-	.pin_d2 = Y4_GPIO_NUM,
-	.pin_d3 = Y5_GPIO_NUM,
-	.pin_d4 = Y6_GPIO_NUM,
-	.pin_d5 = Y7_GPIO_NUM,
-	.pin_d6 = Y8_GPIO_NUM,
 	.pin_d7 = Y9_GPIO_NUM,
-	.pin_pclk = PCLK_GPIO_NUM,
+	.pin_d6 = Y8_GPIO_NUM,
+	.pin_d5 = Y7_GPIO_NUM,
+	.pin_d4 = Y6_GPIO_NUM,
+	.pin_d3 = Y5_GPIO_NUM,
+	.pin_d2 = Y4_GPIO_NUM,
+	.pin_d1 = Y3_GPIO_NUM,
+	.pin_d0 = Y2_GPIO_NUM,
+
 	.pin_vsync = VSYNC_GPIO_NUM,
 	.pin_href = HREF_GPIO_NUM,
+	.pin_pclk = PCLK_GPIO_NUM,
 
 	.xclk_freq_hz = 10000000,
-	.ledc_channel = LEDC_CHANNEL_0,
 	.ledc_timer = LEDC_TIMER_0,
+	.ledc_channel = LEDC_CHANNEL_0,
 
 	.pixel_format = PIXFORMAT_GRAYSCALE,
 	.frame_size = FRAMESIZE_240X240,
 
 	.fb_count = 10,
-	.grab_mode = CAMERA_GRAB_WHEN_EMPTY};
+	.grab_mode = CAMERA_GRAB_WHEN_EMPTY
+};
 
 static httpd_handle_t stream_httpd = NULL;
+
+const tflite::Model* model = nullptr;
 
 
 void start_camera_server()
@@ -72,9 +86,9 @@ void start_camera_server()
 }
 
 
-void app_main(void)
+void setup()
 {
-	esp_err_t ret = nvs_flash_init();
+  esp_err_t ret = nvs_flash_init();
 	if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
 	{
 		ESP_ERROR_CHECK(nvs_flash_erase());
@@ -87,4 +101,11 @@ void app_main(void)
 	ESP_ERROR_CHECK(esp_camera_init(&camera_config));
 
 	start_camera_server();
+
+	model = tflite::GetModel(face_detector_data);
 }
+
+
+void loop() {
+	return;
+};
