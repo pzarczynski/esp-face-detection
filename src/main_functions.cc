@@ -17,6 +17,8 @@
 #include "wifi_server.h"
 #include "model.h"
 #include "main_functions.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
 static const char *TAG = __FILE__;
 
@@ -41,14 +43,14 @@ static camera_config_t camera_config =
 	.pin_href = HREF_GPIO_NUM,
 	.pin_pclk = PCLK_GPIO_NUM,
 
-	.xclk_freq_hz = 10000000,
+	.xclk_freq_hz = 20000000,
 	.ledc_timer = LEDC_TIMER_0,
 	.ledc_channel = LEDC_CHANNEL_0,
 
 	.pixel_format = PIXFORMAT_GRAYSCALE,
-	.frame_size = FRAMESIZE_240X240,
+	.frame_size = FRAMESIZE_128X128,
 
-	.fb_count = 10,
+	.fb_count = 2,
 	.grab_mode = CAMERA_GRAB_WHEN_EMPTY
 };
 
@@ -107,5 +109,5 @@ void setup()
 
 
 void loop() {
-	return;
+	vTaskDelay(1000);
 };

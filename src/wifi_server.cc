@@ -104,7 +104,7 @@ esp_err_t stream_handler(httpd_req_t *req)
 		} 
 
 		if (fb->format != PIXFORMAT_JPEG) {
-			if (!frame2jpg(fb, 40, &_jpg_buf, &_jpg_buf_len))
+			if (!frame2jpg(fb, 70, &_jpg_buf, &_jpg_buf_len))
 			{
 				ESP_LOGE(TAG, "Converting to JPEG failed");
 				res = ESP_FAIL;
